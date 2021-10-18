@@ -111,6 +111,27 @@ jobs:
       - name: Verify submodules recursive
         run: __test__/verify-submodules-recursive.sh
 
+      # Preserve tags
+      - name: Checkout v1.1.0
+        uses: ./
+        with:
+          ref: v1.1.0
+          path: checkout-v1.1.0
+      - name: Verify shallow tags
+        working-directory: ./checkout-v1.1.0
+        run: ../__test__/check-git-describe.sh v1.1.0
+      - name: Checkout v1.1.0-1-ge8bd1df
+        if: always()
+        uses: ./
+        with:
+          ref: e8bd1dffb6451bb0d84dbcd3ed059daca1371180
+          fetch-depth: 0
+          path: checkout-v1.1.0-1
+      - name: Verify deep tags
+        if: always()
+        working-directory: ./checkout-v1.1.0-1
+        run: ../__test__/check-git-describe.sh v1.1.0-1-ge8bd1df
+
       # Basic checkout using REST API
       - name: Remove basic
         if: runner.os != 'windows'

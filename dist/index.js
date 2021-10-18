@@ -5870,7 +5870,6 @@ class GitCommandManager {
         return __awaiter(this, void 0, void 0, function* () {
             const args = ['-c', 'protocol.version=2', 'fetch'];
             if (!refSpec.some(x => x === refHelper.tagsRefSpec)) {
-                args.push('--no-tags');
             }
             args.push('--prune', '--progress', '--no-recurse-submodules');
             if (fetchDepth && fetchDepth > 0) {
